@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "266742945502",
+    "project_id": "quiz-app-89650",
+    "storage_bucket": "quiz-app-89650.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266742945502:android:0494929f76d7caad49544f",
+        "android_client_info": {
+          "package_name": "com.CAROBY.biquiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266742945502-9lru76hm80h1eg5q7uqjuhosi3f4ta2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Dwr2Iu242aqHlWVFg1YhS04En45KPss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266742945502-9lru76hm80h1eg5q7uqjuhosi3f4ta2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

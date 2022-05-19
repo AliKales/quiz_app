@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:quiz/colors.dart';
+import 'package:quiz/funcs.dart';
+import 'package:quiz/models/question.dart';
+import 'package:quiz/values.dart';
+
+class ShowQuestionsPage extends StatelessWidget {
+  const ShowQuestionsPage({Key? key, required this.questions})
+      : super(key: key);
+
+  final List<Question> questions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color1,
+      appBar: AppBar(
+        backgroundColor: color1,
+        title: const Text("QUESTIONS"),
+      ),
+      body: body(context),
+    );
+  }
+
+  body(context) {
+    return Column(
+      children: [
+        FutureBuilder(
+          future: Funcs().sortListWithCounts(questions),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(
+                "\n${questions.length} questions\n" + (snapshot.data as String),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: colorText),
+              );
+            }
+            return Text(
+              "${questions.length} questions",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: colorText),
+            );
+          },
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: questions.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: colorMix2,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(radius1),
+                  ),
+                ),
+                child: Text(
+                  "${index + 1}-) " +
+                      (questions[index].question?.first.question ?? ""),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: colorText),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
