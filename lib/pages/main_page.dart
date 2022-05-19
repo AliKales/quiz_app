@@ -6,6 +6,7 @@ import 'package:quiz/hive.dart';
 import 'package:quiz/models/game_values.dart';
 import 'package:quiz/pages/admin_page.dart';
 import 'package:quiz/pages/send_question_page.dart';
+import 'package:quiz/pages/statistic_page.dart';
 import 'package:quiz/simple_ui.dart';
 
 class MainPage extends StatelessWidget {
@@ -35,9 +36,9 @@ class MainPage extends StatelessWidget {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onPressed: () {
-                Funcs().navigatorPush(context, const AdminPage());
-                //Funcs().navigatorPush(context,
-                //  StatisticPage(statistic: HiveDatabase().getStatistic()));
+                //Funcs().navigatorPush(context, const AdminPage());
+                Funcs().navigatorPush(context,
+                  StatisticPage(statistic: HiveDatabase().getStatistic()));
               },
               icon: const Icon(
                 Icons.account_circle,
@@ -67,7 +68,7 @@ class MainPage extends StatelessWidget {
             onTap: () async {
               SimpleUI().showProgressIndicator(context);
               GameValues? gameValues =
-                  await HiveDatabase().getGameValues(context, true);
+                  await HiveDatabase().getGameValues(context, false);
               Navigator.pop(context);
               if (gameValues != null) {
                 if (gameValues.questions == null ||

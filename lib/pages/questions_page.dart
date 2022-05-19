@@ -282,7 +282,6 @@ class _QuestionAnswersContainerState
   }
 
   Future selectAnswer(int index) async {
-    print("object");
     if ((widget.counter + 1) == widget.questionsLength) {
       ref.read(timerProvider.notifier).cancel();
     }

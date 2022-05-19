@@ -128,10 +128,24 @@ class StatisticPage extends StatelessWidget {
                 label2: "${statistic.getPoint}",
               ),
               ...getSpacers(context),
-              WidgetStatisticContainer(
+              WidgetStatisticContainerAnimatedSize(
                 label: "Questions:",
                 label2:
-                    "Length: ${HiveDatabase().questionsLength()}\nLast Update:${Funcs().parseDateTime(HiveDatabase().getLastUpdateTime)}",
+                    "Length: ${HiveDatabase().questionsLength()}\nLast Update: ${Funcs().parseDateTime(HiveDatabase().getLastUpdateTime)}",
+                details: List.generate(
+                  _gameValues?.categories?.length ?? 0,
+                  (index) {
+                    String category = _gameValues?.categories?[index].id ?? "";
+                    int _int = _gameValues?.questions
+                            ?.where((element) =>
+                                element.catergory?.toLowerCase() == category)
+                            .toList()
+                            .length ??
+                        0;
+
+                    return "$category: $_int";
+                  },
+                ),
               ),
               SimpleUI.spacer(context: context, height: 65),
             ],
