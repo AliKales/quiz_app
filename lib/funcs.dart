@@ -62,29 +62,33 @@ class Funcs {
 
   Future finishQuiz(context, WidgetRef ref) async {
     final CorrectWrong correctWrong = ref.read(correctWrongProvider);
+    final int _intCorrect = correctWrong.correct.toInt();
+    final int _intWrong = correctWrong.wrong.toInt();
+    final int _intQuestionsLength = correctWrong.questionsLength.toInt();
+
+    //Here it does the trick for detailed infos for correct, wrong, length
     String category = ref.read(gameSettingProvider).category ?? "";
     category = category.toLowerCase();
     Map _correctWrongInfos = HiveDatabase().get("correctWrongInfos") ?? {};
 
-    if (_correctWrongInfos.containsKey(category)) {
-      CorrectWrong _cWInfos = _correctWrongInfos[category];
-      _cWInfos.correct += correctWrong.correct;
-      _cWInfos.wrong += correctWrong.wrong;
-      _cWInfos.questionsLength += correctWrong.questionsLength;
-      _correctWrongInfos[category] = _cWInfos;
-    } else {
-      _correctWrongInfos[category] = correctWrong;
-    }
+    CorrectWrong _cWInfos = _correctWrongInfos[category] ?? CorrectWrong();
+    _cWInfos.correct += _intCorrect;
+    _cWInfos.wrong += _intWrong;
+    _cWInfos.questionsLength += _intQuestionsLength;
+
+    _correctWrongInfos[category] = _cWInfos;
 
     HiveDatabase().put("correctWrongInfos", _correctWrongInfos);
 
     HiveDatabase().update(correctWrong);
+    //Until here......................................
+
     await SimpleUI.showGeneralDialogFunc(
       context: context,
       barrierDismissible: false,
       headText: "Quiz has finished!",
       textBelow:
-          "${correctWrong.correct} correct, ${correctWrong.wrong} wrong out of ${correctWrong.questionsLength} questions",
+          "$_intCorrect correct, $_intWrong wrong out of $_intQuestionsLength questions",
       buttons: [
         CustomGradientButton(
           text: "Okay",
@@ -130,7 +134,7 @@ class Funcs {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Category: ${gameValues.categories?.firstWhereOrNull((element) => element.translateCategories?.first.category == selectedCategory)?.translateCategories?.firstWhereOrNull((element) => element.language?.languageCode == gameSettings.language?.languageCode)?.category}",
+                  "Category: ${gameValues.categories?.firstWhereOrNull((element) => element.translateCategories?.first.category == selectedCategory)?.translateCategories?.firstWhereOrNull((element) => element.language?.languageCode == gameSettings.language?.languageCode)?.category ?? "---"}",
                   style: Theme.of(context).textTheme.headline6!.copyWith(),
                 ),
               ),
@@ -208,6 +212,7 @@ class Funcs {
                   _questions.shuffle();
                   int _end = _questions.length <= 21 ? _questions.length : 21;
                   var questions = _questions.getRange(0, _end).toList();
+                  print(questions.length);
                   ref.read(correctWrongProvider).reset(questions.length);
                   ref.read(timerProvider.notifier).start(90);
                   Funcs().navigatorPush(

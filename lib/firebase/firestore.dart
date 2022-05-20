@@ -101,7 +101,7 @@ class Firestore {
     try {
       await FirebaseFirestore.instance
           .collection("gameValues")
-          .doc("gameValues")
+          .doc("1")
           .update({
         where: FieldValue.arrayUnion(value),
       });
