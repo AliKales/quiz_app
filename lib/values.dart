@@ -11,9 +11,10 @@ const int goldPoint = 3000;
 const int platinumPoint = 5000;
 const int diamondPoint = 10000;
 const int dayToUpdate = 7;
-const int rateOfMatchingWords = 30;
-const int secondPerQuestion = 5;
+const int rateOfMatchingWords = 10;
+const int secondPerQuestion = 12;
 const int minByteForDB = 5000;
+const String wordsToBeDeleted = "what which where when how who am is are the in on what's";
 
 @HiveType(typeId: 10)
 enum DatabaseStatus {

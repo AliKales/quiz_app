@@ -214,7 +214,7 @@ class Funcs {
                   var questions = _questions.getRange(0, _end).toList();
                   print(questions.length);
                   ref.read(correctWrongProvider).reset(questions.length);
-                  ref.read(timerProvider.notifier).start(90);
+                  ref.read(timerProvider.notifier).start(questions.length*secondPerQuestion);
                   Funcs().navigatorPush(
                       context, QuestionsPage(questions: questions));
                 },
@@ -249,20 +249,34 @@ class Funcs {
     required String question,
   }) {
     List<String> result = [];
-    List<String> wordsFromUser = question.toLowerCase().split(" ");
+    String _question = Funcs()._removeCertainWords(question.toLowerCase());
+    List<String> wordsFromUser = _question.split(" ");
     for (var i = 0; i < questions!.length; i++) {
       int counter = 0;
-      String q = questions[i].question?.first.question?.toLowerCase() ?? "";
+      String mainString =
+          questions[i].question?.first.question?.toLowerCase() ?? "";
+      String q = mainString;
+
+      q = Funcs()._removeCertainWords(q);
 
       for (var item in wordsFromUser) {
         if (q.contains(item)) counter++;
       }
 
       if ((100 * (counter / q.split(" ").length)) >= rateOfMatchingWords) {
-        result.add(q);
+        result.add(mainString);
       }
     }
     return result;
+  }
+
+  String _removeCertainWords(String value) {
+    List<String> words = wordsToBeDeleted.split(" ");
+    List<String> _value = value.split(" ");
+    for (var item in words) {
+      _value.removeWhere((element) => element == item);
+    }
+    return _value.join(" ");
   }
 
   Future<String> sortListWithCounts(List<Question> list) async {
