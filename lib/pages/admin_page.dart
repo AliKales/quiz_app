@@ -471,7 +471,6 @@ class _BodySignedInState extends State<BodySignedIn> {
           (1048576 - minByteForDB)) {
         int _int = (int.tryParse(_lastGameValueDoc['id']) ?? 0) + 1;
         _docId = ((int.tryParse(_lastGameValueDoc['id']) ?? 0) + 1).toString();
-        print(_docId);
       } else {
         _docId = _lastGameValueDoc['id'];
       }

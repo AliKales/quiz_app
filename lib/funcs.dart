@@ -210,11 +210,15 @@ class Funcs {
                   }
 
                   _questions.shuffle();
-                  int _end = _questions.length <= 21 ? _questions.length : 21;
+                  int _end = _questions.length <= questionLength
+                      ? _questions.length
+                      : questionLength;
                   var questions = _questions.getRange(0, _end).toList();
-                  print(questions.length);
+
                   ref.read(correctWrongProvider).reset(questions.length);
-                  ref.read(timerProvider.notifier).start(questions.length*secondPerQuestion);
+                  ref
+                      .read(timerProvider.notifier)
+                      .start(questions.length * secondPerQuestion);
                   Funcs().navigatorPush(
                       context, QuestionsPage(questions: questions));
                 },
@@ -250,6 +254,7 @@ class Funcs {
   }) {
     List<String> result = [];
     String _question = Funcs()._removeCertainWords(question.toLowerCase());
+    
     List<String> wordsFromUser = _question.split(" ");
     for (var i = 0; i < questions!.length; i++) {
       int counter = 0;

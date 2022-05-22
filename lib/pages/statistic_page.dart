@@ -24,7 +24,6 @@ class StatisticPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(_correctWrongInfos);
     return Scaffold(
       backgroundColor: color1,
       appBar: AppBar(

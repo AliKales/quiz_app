@@ -35,6 +35,15 @@ class QuestionsPage extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: color1,
+        leading: IconButton(
+          onPressed: () {
+            ref.read(timerProvider.notifier).cancel();
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+        ),
         actions: [
           //Skip button on App Bar
           TextButton(

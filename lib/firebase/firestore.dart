@@ -29,7 +29,7 @@ class Firestore {
         GameValues gameValues =
             GameValues.fromJson(valueGameValues.docs.first.data());
         List<Question> _questions = [];
-        
+
         for (var i = 1; i < valueGameValues.docs.length; i++) {
           if (valueGameValues.docs.length - 1 == i) {
             HiveDatabase().put(
@@ -45,14 +45,14 @@ class Firestore {
                   [];
         }
 
-        if (valueGameValues.docs.length==1) {
+        if (valueGameValues.docs.length == 1) {
           HiveDatabase().put(
-              "lastGameValueDoc",
-              {
-                'id': valueGameValues.docs.first.id,
-                "length": valueGameValues.docs.first.data().toString().length
-              },
-            );
+            "lastGameValueDoc",
+            {
+              'id': valueGameValues.docs.first.id,
+              "length": valueGameValues.docs.first.data().toString().length
+            },
+          );
         }
 
         if (gameValues.questions != null) {
@@ -68,11 +68,9 @@ class Firestore {
       } else {
         return GameValues(databaseStatus: DatabaseStatus.nulll);
       }
-    } on FirebaseException catch (e) {
-      print(e);
+    } on FirebaseException {
       return GameValues(databaseStatus: DatabaseStatus.error);
     } catch (e) {
-      print(e);
       return GameValues(databaseStatus: DatabaseStatus.error);
     }
   }
@@ -86,11 +84,7 @@ class Firestore {
 
       var gameValues = db.collection("gameValues").doc("1");
       gameValues.set(map);
-    } on FirebaseException catch (e) {
-      print(e);
-    } catch (e) {
-      print(e);
-    }
+    } on FirebaseException {}
   }
 
   static Future<bool> addValueToList({
