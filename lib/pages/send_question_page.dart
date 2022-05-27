@@ -8,6 +8,7 @@ import 'package:quiz/hive.dart';
 import 'package:quiz/models/game_values.dart';
 import 'package:quiz/models/request_question.dart';
 import 'package:quiz/simple_ui.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SendQuestionPage extends StatelessWidget {
   SendQuestionPage({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class SendQuestionPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: color1,
           elevation: 0,
-          title: const Text("SEND A QUESTION"),
+          title: Text("15".tr()),
         ),
         body: body(context));
   }
@@ -34,25 +35,25 @@ class SendQuestionPage extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Write your question with its answers and indicate the correct answer.",
+              "16".tr(),
               style: Theme.of(context)
                   .textTheme
                   .headline6!
                   .copyWith(color: colorText),
             ),
             CustomTextField(
-              labelText: "Question",
+              labelText: "17".tr(),
               maxLine: null,
               textEditingController: tECQuestion,
             ),
             CustomTextField(
-              labelText: "Answers",
+              labelText: "18".tr(),
               maxLine: null,
               textEditingController: tECAnswer,
             ),
             SimpleUI.spacer(context: context, height: 13),
             CustomGradientButton(
-              text: "SUBMIT",
+              text: "19".tr(),
               onTap: () => submit(context),
             ),
           ],
@@ -67,19 +68,19 @@ class SendQuestionPage extends StatelessWidget {
     DateTime? _dateTime = HiveDatabase().get("lastTimeRequestQuestion");
     if (_dateTime != null && DateTime.now().difference(_dateTime).inDays <= 3) {
       Funcs().showSnackBar(
-          context, "You can only submit one question every 3 days!");
+          context, "20".tr());
       return;
     }
 
     if (tECQuestion.text.trim() == "" || tECAnswer.text.trim() == "") {
       Funcs()
-          .showSnackBar(context, "Write down your question and its answers!");
+          .showSnackBar(context, "21".tr());
       return;
     }
     GameValues? _gameValues = await HiveDatabase().getGameValues(context, true);
     if (_gameValues == null || (_gameValues.questions?.isEmpty ?? true)) {
       Funcs().showSnackBar(
-          context, "You must play at least once before sending a question!");
+          context, "22".tr());
       return;
     }
     List<String> result = Funcs.checkQuestionExisting(
@@ -119,7 +120,7 @@ class SendQuestionPage extends StatelessWidget {
     if (_result) {
       HiveDatabase().put("lastTimeRequestQuestion", DateTime.now());
       Navigator.pop(context);
-      Funcs().showSnackBar(context, "We received your question. Thanks!");
+      Funcs().showSnackBar(context, "23".tr());
     }
   }
 }

@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz/colors.dart';
+import 'package:quiz/funcs.dart';
 import 'package:quiz/values.dart';
 
 class CategoryContainer extends StatelessWidget {
@@ -22,10 +24,12 @@ class CategoryContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _width =
+        (kIsWeb && Funcs().getSmartPhoneOrTablet() == "desktop") ? 6 : 2.5;
     return InkWell(
       onTap: () => onTap.call(categoryInEnglish),
       child: Container(
-        width: MediaQuery.of(context).size.width / 2.5,
+        width: MediaQuery.of(context).size.width / _width,
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -40,27 +44,16 @@ class CategoryContainer extends StatelessWidget {
             Radius.circular(radius1),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Icon(
-              iconData,
-              color: colorWhite,
-              size: 48,
-            ),
-            Expanded(
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.fade,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: colorText, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
+        child: Center(
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.fade,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1!
+                .copyWith(color: colorText, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

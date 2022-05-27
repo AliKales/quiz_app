@@ -31,7 +31,7 @@ class Database {
   // ];
 
   // List<Question> getQuestions(String category) {
-  //   print(category);
+  //   .(category);
   //   return questions.where((element) => element.catergory == category).toList();
   // }
 

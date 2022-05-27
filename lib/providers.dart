@@ -53,12 +53,12 @@ class GameSettingNotifier extends StateNotifier<GameSettings> {
   GameSettingNotifier()
       : super(GameSettings(
             category: "general",
-            language: Language(language: "Türkçe", languageCode: "tr")));
+            language: Language(language: "English", languageCode: "en")));
 
   void update(GameSettings gameSettings) {
     state = GameSettings.fromJson(gameSettings.toJson());
   }
 
   Language get getLanguage =>
-      state.language ?? Language(language: "Türkçe", languageCode: "tr");
+      state.language ?? Language(language: "English", languageCode: "en");
 }

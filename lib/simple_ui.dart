@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz/UIs/custom_gradient_button.dart';
 import 'package:quiz/colors.dart';
+import 'package:quiz/funcs.dart';
 import 'package:quiz/values.dart';
 
 class SimpleUI {
@@ -57,6 +59,8 @@ class SimpleUI {
     Widget? widget,
     Dialog? dialog,
   }) async {
+    double _width =
+        (kIsWeb && Funcs().getSmartPhoneOrTablet() == "desktop") ? 5 : 1.4;
     FocusScope.of(context).unfocus();
     Dialog _dialog = Dialog(
       shape: const RoundedRectangleBorder(
@@ -66,7 +70,7 @@ class SimpleUI {
         onWillPop: () async => barrierDismissible ?? true,
         child: Container(
           padding: const EdgeInsets.all(16),
-          width: MediaQuery.of(context).size.width / 1.4,
+          width: MediaQuery.of(context).size.width / _width,
           decoration: const BoxDecoration(
             color: colorWhite,
             borderRadius: BorderRadius.all(Radius.circular(radius1)),

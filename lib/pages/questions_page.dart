@@ -14,21 +14,24 @@ import 'package:quiz/providers.dart';
 import 'package:quiz/simple_ui.dart';
 import 'package:quiz/values.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class QuestionsPage extends ConsumerWidget {
   QuestionsPage({
     Key? key,
     required this.questions,
-  }) : super(key: key);
+  }) : super();
 
   final List<Question> questions;
   double width = 0;
 
   TextEditingController tECReport = TextEditingController();
 
+  int counter = 0;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterProvider);
+  Widget build(BuildContext context, ref) {
+    counter = ref.watch(counterProvider);
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: color1,
@@ -52,9 +55,9 @@ class QuestionsPage extends ConsumerWidget {
                 ref.read(counterProvider.state).state++;
               }
             },
-            child: const Text(
-              "Skip",
-              style: TextStyle(color: colorText),
+            child: Text(
+              "skip".tr(),
+              style: const TextStyle(color: colorText),
             ),
           ),
         ],
@@ -64,9 +67,14 @@ class QuestionsPage extends ConsumerWidget {
   }
 
   body(context, counter, ref) {
+    return _widgetMainBody(context, ref, counter);
+  }
+
+  Padding _widgetMainBody(context, ref, counter) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WidgetTimer(
@@ -81,7 +89,7 @@ class QuestionsPage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Question ${int.parse(counter.toString()) + 1}/${questions.length}",
+                "${"17".tr()} ${int.parse(counter.toString()) + 1}/${questions.length}",
                 style: Theme.of(context)
                     .textTheme
                     .headline5!
@@ -109,17 +117,16 @@ class QuestionsPage extends ConsumerWidget {
   }
 
   //FUNCTIONSSSSSSSSSSSSSSSSSSSSSS
-
   Future _onReportTap(WidgetRef ref, context, int counter) async {
     ref.read(timerProvider.notifier).pause();
     bool result = false;
 
     await SimpleUI.showGeneralDialogFunc(
         context: context,
-        headText: "Report Question",
+        headText: "34".tr(),
         buttons: [
           CustomGradientButton(
-            text: "Submit",
+            text: "19".tr(),
             onTap: () {
               result = true;
               Navigator.pop(context);
@@ -129,7 +136,7 @@ class QuestionsPage extends ConsumerWidget {
         widget: CustomTextField(
           maxLine: null,
           maxLength: 200,
-          text: "Your excuse",
+          text: "35".tr(),
           colorHint: Colors.grey,
           textEditingController: tECReport,
         ));
@@ -150,7 +157,7 @@ class QuestionsPage extends ConsumerWidget {
           where: "questionReports");
       Navigator.pop(context);
 
-      Funcs().showSnackBar(context, _result ? "Sent!" : "ERROR!");
+      Funcs().showSnackBar(context, _result ? "sent".tr() : "ERROR!");
     }
     tECReport.clear();
 

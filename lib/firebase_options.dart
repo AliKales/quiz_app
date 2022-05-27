@@ -17,22 +17,26 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
@@ -42,11 +46,31 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyC3aClOP9-UuRMHIxh5PNC_2F1QXH-YbGA',
+    appId: '1:266742945502:web:4da50edbd5dbbae049544f',
+    messagingSenderId: '266742945502',
+    projectId: 'quiz-app-89650',
+    authDomain: 'quiz-app-89650.firebaseapp.com',
+    storageBucket: 'quiz-app-89650.appspot.com',
+    measurementId: 'G-0RJKR9C4H0',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1Dwr2Iu242aqHlWVFg1YhS04En45KPss',
     appId: '1:266742945502:android:0494929f76d7caad49544f',
     messagingSenderId: '266742945502',
     projectId: 'quiz-app-89650',
     storageBucket: 'quiz-app-89650.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBI5E0u9OvxSSHnA3meYBPHbm_h5laz9yw',
+    appId: '1:266742945502:ios:6c1cbeed7bf674a049544f',
+    messagingSenderId: '266742945502',
+    projectId: 'quiz-app-89650',
+    storageBucket: 'quiz-app-89650.appspot.com',
+    iosClientId: '266742945502-30difif28nudmi5mbaps91ekbjuko0fh.apps.googleusercontent.com',
+    iosBundleId: 'com.CAROBY.biquiz',
   );
 }

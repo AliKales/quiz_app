@@ -10,6 +10,7 @@ class WidgetStatisticContainerAnimatedSize extends StatefulWidget {
     this.label2TextColor = colorText,
     this.label2FontWeight,
     this.details,
+    this.onClicked,
   }) : super(key: key);
 
   final String label;
@@ -17,6 +18,7 @@ class WidgetStatisticContainerAnimatedSize extends StatefulWidget {
   final Color label2TextColor;
   final FontWeight? label2FontWeight;
   final List<String>? details;
+  final Function(bool)? onClicked;
 
   @override
   State<WidgetStatisticContainerAnimatedSize> createState() =>
@@ -87,6 +89,7 @@ class _WidgetStatisticContainerAnimatedSizeState
               setState(() {
                 progress1 = !progress1;
               });
+              widget.onClicked?.call(progress1);
             },
             icon: Icon(
               progress1 ? Icons.arrow_drop_up : Icons.arrow_drop_down,

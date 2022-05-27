@@ -3,6 +3,7 @@ import 'package:quiz/colors.dart';
 import 'package:quiz/funcs.dart';
 import 'package:quiz/models/question.dart';
 import 'package:quiz/values.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ShowQuestionsPage extends StatelessWidget {
   const ShowQuestionsPage({Key? key, required this.questions})
@@ -16,7 +17,7 @@ class ShowQuestionsPage extends StatelessWidget {
       backgroundColor: color1,
       appBar: AppBar(
         backgroundColor: color1,
-        title: const Text("QUESTIONS"),
+        title: Text("24".tr()),
       ),
       body: body(context),
     );
@@ -30,7 +31,7 @@ class ShowQuestionsPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Text(
-                "\n${questions.length} questions\n" + (snapshot.data as String),
+                "\n${questions.length} ${"17".tr().toLowerCase()}\n" + (snapshot.data as String),
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
@@ -38,7 +39,7 @@ class ShowQuestionsPage extends StatelessWidget {
               );
             }
             return Text(
-              "${questions.length} questions",
+              "${questions.length} ${"17".tr().toLowerCase()}",
               style: Theme.of(context)
                   .textTheme
                   .headline6!

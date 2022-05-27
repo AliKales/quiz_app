@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,6 +16,8 @@ import 'package:quiz/models/translate_answer.dart';
 import 'package:quiz/models/translate_category.dart';
 import 'package:quiz/models/translate_question.dart';
 import 'package:quiz/values.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'pages/main_page.dart';
 
@@ -24,6 +27,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Hive.initFlutter();
+  await EasyLocalization.ensureInitialized();
   Hive.registerAdapter(QuestionAdapter());
   Hive.registerAdapter(AnswerAdapter());
   Hive.registerAdapter(CategoryAdapter());
@@ -35,8 +39,16 @@ Future<void> main() async {
   Hive.registerAdapter(TranslateQuestionAdapter());
   Hive.registerAdapter(DatabaseStatusAdapter());
   Hive.registerAdapter(CorrectWrongAdapter());
-  var box = await Hive.openBox('database');
-  runApp(const ProviderScope(child: MyApp()));
+  final box = await Hive.openBox('database');
+  box.put("firstStart", true);
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('tr')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: const Locale('en'),
+        child: const ProviderScope(child: MyApp())),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -46,9 +58,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: context.locale,      
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+        },
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Quiz',
       theme: ThemeData(
+        fontFamily: "TiroBangla",
         primarySwatch: Colors.blue,
         dividerColor: Colors.grey,
         unselectedWidgetColor: colorWhite,

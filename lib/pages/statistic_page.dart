@@ -9,6 +9,7 @@ import 'package:quiz/models/statistic.dart';
 import 'package:quiz/pages/admin_page.dart';
 import 'package:quiz/simple_ui.dart';
 import 'package:quiz/values.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class StatisticPage extends StatelessWidget {
   StatisticPage({Key? key, required this.statistic}) : super(key: key);
@@ -21,6 +22,7 @@ class StatisticPage extends StatelessWidget {
 
   final GameValues? _gameValues = HiveDatabase().get("gameValues");
   final Map _correctWrongInfos = HiveDatabase().get("correctWrongInfos") ?? {};
+  final ScrollController _sC = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,8 @@ class StatisticPage extends StatelessWidget {
               Funcs().navigatorPush(context, const AdminPage());
             }
           },
-          child: const Text(
-            "Statistics",
+          child: Text(
+            "25".tr(),
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -63,13 +65,19 @@ class StatisticPage extends StatelessWidget {
           return true;
         },
         child: SingleChildScrollView(
+          controller: _sC,
           child: Column(
             children: [
               SimpleUI.spacer(context: context, height: 65),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Each correct answer; +$pointForEachCorrect\nEvery $wrongsToRemoveCorrects wrong answers; -$pointForEachCorrect\nEach not answered question; -$notAnsweredQuestionPoint",
+                  "26".tr(args: [
+                    pointForEachCorrect.toString(),
+                    wrongsToRemoveCorrects.toString(),
+                    pointForEachCorrect.toString(),
+                    notAnsweredQuestionPoint.toString()
+                  ]),
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
@@ -78,15 +86,16 @@ class StatisticPage extends StatelessWidget {
               ),
               ...getSpacers(context),
               WidgetStatisticContainer(
-                label: "Rank:",
+                label: "27".tr(),
                 label2: statistic.getRank.name.toUpperCase(),
                 label2TextColor: statistic.getColorOfRank,
                 label2FontWeight: FontWeight.bold,
               ),
               ...getSpacers(context),
               WidgetStatisticContainerAnimatedSize(
-                label: "Correct Answers:",
-                label2: "${statistic.correctAnswers} correct answer",
+                label: "28".tr() + ":",
+                label2:
+                    "${statistic.correctAnswers} ${"28".tr().toLowerCase()}",
                 details: List.generate(
                   _gameValues?.categories?.length ?? 0,
                   (index) {
@@ -98,8 +107,8 @@ class StatisticPage extends StatelessWidget {
               ),
               ...getSpacers(context),
               WidgetStatisticContainerAnimatedSize(
-                label: "Wrong Answers:",
-                label2: "${statistic.wrongAnswers} wrong answer",
+                label: "29".tr() + ":",
+                label2: "${statistic.wrongAnswers} ${"29".tr().toLowerCase()}",
                 details: List.generate(
                   _gameValues?.categories?.length ?? 0,
                   (index) {
@@ -111,8 +120,9 @@ class StatisticPage extends StatelessWidget {
               ),
               ...getSpacers(context),
               WidgetStatisticContainerAnimatedSize(
-                label: "Total Questions:",
-                label2: "${statistic.totalQuestions} total question",
+                label: "30".tr() + ":",
+                label2:
+                    "${statistic.totalQuestions} ${"30".tr().toLowerCase()}",
                 details: List.generate(
                   _gameValues?.categories?.length ?? 0,
                   (index) {
@@ -124,14 +134,26 @@ class StatisticPage extends StatelessWidget {
               ),
               ...getSpacers(context),
               WidgetStatisticContainer(
-                label: "Score:",
+                label: "31".tr(),
                 label2: "${statistic.getPoint}",
               ),
               ...getSpacers(context),
               WidgetStatisticContainerAnimatedSize(
-                label: "Questions:",
-                label2:
-                    "Length: ${HiveDatabase().questionsLength()}\nLast Update: ${Funcs().parseDateTime(HiveDatabase().getLastUpdateTime)}",
+                onClicked: (value) async {
+                  if (value) {
+                    await Future.delayed(
+                      const Duration(milliseconds: 600),
+                    );
+                    _sC.animateTo(_sC.position.maxScrollExtent,
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.ease);
+                  }
+                },
+                label: "32".tr() + ":",
+                label2: "33".tr(args: [
+                  HiveDatabase().questionsLength().toString(),
+                  Funcs().parseDateTime(HiveDatabase().getLastUpdateTime)
+                ]),
                 details: List.generate(
                   _gameValues?.categories?.length ?? 0,
                   (index) {

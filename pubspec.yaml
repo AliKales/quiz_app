@@ -1,5 +1,5 @@
 name: quiz
-description: A new Flutter project.
+description: Find the correct answer!
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,8 @@ dependencies:
   firebase_core: ^1.16.0
   cloud_firestore: ^3.1.14
   firebase_auth: ^3.3.17
+  universal_html: ^2.0.8
+  easy_localization: ^3.0.0
 
 
 dev_dependencies:
@@ -60,6 +62,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
+  assets:
+    - assets/translations/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -82,6 +87,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: TiroBangla
+      fonts:
+        - asset:  assets/fonts/PlusJakartaSans-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

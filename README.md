@@ -1,6 +1,6 @@
 # quiz
 
-A new Flutter project.
+Find the correct answer!
 
 ## Getting Started
 

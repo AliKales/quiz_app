@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/UIs/category_container.dart';
@@ -14,7 +15,8 @@ import 'package:quiz/pages/questions_page.dart';
 import 'package:quiz/providers.dart';
 import 'package:quiz/values.dart';
 import 'package:collection/collection.dart';
-
+import 'package:universal_html/html.dart' as html;
+import 'package:easy_localization/easy_localization.dart';
 import 'simple_ui.dart';
 
 class Funcs {
@@ -22,11 +24,11 @@ class Funcs {
     int hour = DateTime.now().hour;
     String text = "";
     if (hour > 04 && hour < 12) {
-      text = "Good Morning";
+      text = "2".tr();
     } else if (hour > 12 && hour < 16) {
-      text = "Good Afternoon";
+      text = "3".tr();
     } else {
-      text = "Good Evening";
+      text = "4".tr();
     }
     return text;
   }
@@ -86,12 +88,15 @@ class Funcs {
     await SimpleUI.showGeneralDialogFunc(
       context: context,
       barrierDismissible: false,
-      headText: "Quiz has finished!",
-      textBelow:
-          "$_intCorrect correct, $_intWrong wrong out of $_intQuestionsLength questions",
+      headText: "5".tr(),
+      textBelow: "6".tr(args: [
+        _intCorrect.toString(),
+        _intWrong.toString(),
+        _intQuestionsLength.toString()
+      ]),
       buttons: [
         CustomGradientButton(
-          text: "Okay",
+          text: "okay".tr(),
           disableMargin: false,
           onTap: () {
             Navigator.pop(context);
@@ -105,6 +110,8 @@ class Funcs {
     required context,
     required GameValues gameValues,
   }) async {
+    double _height =
+        (kIsWeb && Funcs().getSmartPhoneOrTablet() == "desktop") ? 6.5 : 3;
     String selectedCategory = "";
     int _selectedCategoryNum = -1;
     Dialog dialogGameSetting = Dialog(
@@ -120,117 +127,134 @@ class Funcs {
         ),
         child: Consumer(builder: (context, ref, _) {
           GameSettings gameSettings = ref.watch(gameSettingProvider);
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "GAME SETTINGS",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              SimpleUI.spacer(context: context, height: 60),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Category: ${gameValues.categories?.firstWhereOrNull((element) => element.translateCategories?.first.category == selectedCategory)?.translateCategories?.firstWhereOrNull((element) => element.language?.languageCode == gameSettings.language?.languageCode)?.category ?? "---"}",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(),
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "7".tr(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
-              ),
-              SimpleUI.spacer(context: context, height: 70),
-              SizedBox(
-                height: MediaQuery.of(context).size.width / 3,
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification: (OverscrollIndicatorNotification overscroll) {
-                    overscroll.disallowIndicator();
-                    return true;
-                  },
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: gameValues.categories!.length,
-                    itemBuilder: (context, index) {
-                      TranslateCategory? translateCategory = gameValues
-                          .categories![index].translateCategories
-                          ?.firstWhereOrNull((element) =>
-                              element.language?.languageCode ==
-                              gameSettings.language?.languageCode);
-                      return CategoryContainer(
-                        categoryInEnglish: gameValues.categories![index]
-                                .translateCategories?.first.category ??
-                            "",
-                        iconData: Icons.abc,
-                        label: translateCategory?.category ?? "",
-                        value: index,
-                        isSelected: index == _selectedCategoryNum,
-                        onTap: (value) {
-                          _selectedCategoryNum = index;
-                          gameSettings.category = value;
-                          selectedCategory = value;
-                          ref
-                              .read(gameSettingProvider.notifier)
-                              .update(gameSettings);
-                        },
-                      );
-                    },
+                SimpleUI.spacer(context: context, height: 60),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "${"category".tr()}: ${gameValues.categories?.firstWhereOrNull((element) => element.translateCategories?.first.category == selectedCategory)?.translateCategories?.firstWhereOrNull((element) => element.language?.languageCode == gameSettings.language?.languageCode)?.category ?? "mixed".tr()}",
+                    style: Theme.of(context).textTheme.headline6!.copyWith(),
                   ),
                 ),
-              ),
-              SimpleUI.spacer(context: context, height: 70),
-              SimpleUI.showDropdownButton(
-                  context: context,
-                  dropdownValue: gameSettings.language?.language ?? "Türkçe",
-                  onChanged: (value) {
-                    gameSettings.language = gameValues.languages?.firstWhere(
-                            (element) => element.language == value) ??
-                        Language(language: "Türkçe", languageCode: "tr");
-                    ref.read(gameSettingProvider.notifier).update(gameSettings);
+                SimpleUI.spacer(context: context, height: 70),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width / _height,
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification:
+                        (OverscrollIndicatorNotification overscroll) {
+                      overscroll.disallowIndicator();
+                      return true;
+                    },
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: gameValues.categories!.length,
+                      itemBuilder: (context, index) {
+                        TranslateCategory? translateCategory = gameValues
+                            .categories![index].translateCategories
+                            ?.firstWhereOrNull((element) =>
+                                element.language?.languageCode ==
+                                gameSettings.language?.languageCode);
+                        return CategoryContainer(
+                          categoryInEnglish: gameValues.categories![index]
+                                  .translateCategories?.first.category ??
+                              "",
+                          iconData: Icons.category_outlined,
+                          label: translateCategory?.category ?? "",
+                          value: index,
+                          isSelected: index == _selectedCategoryNum,
+                          onTap: (value) {
+                            if (_selectedCategoryNum == index) {
+                              _selectedCategoryNum = -1;
+                              gameSettings.category = null;
+                              selectedCategory = "";
+                            } else {
+                              _selectedCategoryNum = index;
+                              gameSettings.category = value;
+                              selectedCategory = value;
+                            }
+
+                            ref
+                                .read(gameSettingProvider.notifier)
+                                .update(gameSettings);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SimpleUI.spacer(context: context, height: 70),
+                SimpleUI.showDropdownButton(
+                    context: context,
+                    dropdownValue: gameSettings.language?.language ?? "Türkçe",
+                    onChanged: (value) {
+                      gameSettings.language = gameValues.languages?.firstWhere(
+                              (element) => element.language == value) ??
+                          Language(language: "Türkçe", languageCode: "tr");
+                      ref
+                          .read(gameSettingProvider.notifier)
+                          .update(gameSettings);
+                    },
+                    list: gameValues.languages
+                            ?.map((e) => e.language ?? "")
+                            .toList() ??
+                        []),
+                SimpleUI.spacer(context: context, height: 70),
+                CustomGradientButton(
+                  text: "start".tr(),
+                  onTap: () {
+                    Navigator.pop(context);
+                    var _questions = <Question>[];
+
+                    if (_selectedCategoryNum == -1) {
+                      _questions = gameValues.questions ?? [];
+                    } else {
+                      _questions = gameValues.questions!
+                          .where((element) =>
+                              element.catergory?.toLowerCase() ==
+                              gameValues.categories?[_selectedCategoryNum].id
+                                  ?.toLowerCase())
+                          .toList();
+                    }
+
+                    if (_questions.isEmpty) {
+                      Funcs().showSnackBar(context, "10".tr());
+                      return;
+                    }
+
+                    _questions.shuffle();
+                    int _end = _questions.length <= questionLength
+                        ? _questions.length
+                        : questionLength;
+                    var questions = _questions.getRange(0, _end).toList();
+
+                    ref.read(correctWrongProvider).reset(questions.length);
+                    ref
+                        .read(timerProvider.notifier)
+                        .start(questions.length * secondPerQuestion);
+                    Funcs().navigatorPush(
+                        context, QuestionsPage(questions: questions));
                   },
-                  list: gameValues.languages
-                          ?.map((e) => e.language ?? "")
-                          .toList() ??
-                      []),
-              SimpleUI.spacer(context: context, height: 70),
-              CustomGradientButton(
-                text: "START",
-                onTap: () {
-                  Navigator.pop(context);
-                  var _questions = <Question>[];
-
-                  _questions = gameValues.questions!
-                      .where((element) =>
-                          element.catergory?.toLowerCase() ==
-                          gameValues.categories?[_selectedCategoryNum].id
-                              ?.toLowerCase())
-                      .toList();
-                  if (_questions.isEmpty) {
-                    Funcs().showSnackBar(context, "No question found!");
-                    return;
-                  }
-
-                  _questions.shuffle();
-                  int _end = _questions.length <= questionLength
-                      ? _questions.length
-                      : questionLength;
-                  var questions = _questions.getRange(0, _end).toList();
-
-                  ref.read(correctWrongProvider).reset(questions.length);
-                  ref
-                      .read(timerProvider.notifier)
-                      .start(questions.length * secondPerQuestion);
-                  Funcs().navigatorPush(
-                      context, QuestionsPage(questions: questions));
-                },
-              ),
-            ],
+                ),
+              ],
+            ),
           );
         }),
       ),
     );
     SimpleUI.showGeneralDialogFunc(
       context: context,
-      headText: "Aha",
+      headText: "7".tr(),
       dialog: dialogGameSetting,
     );
   }
@@ -244,7 +268,7 @@ class Funcs {
   }
 
   String parseDateTime(DateTime? dateTime) {
-    if (dateTime == null) return "null";
+    if (dateTime == null) return "---";
     return "${dateTime.year}-${dateTime.month}-${dateTime.day}";
   }
 
@@ -254,7 +278,7 @@ class Funcs {
   }) {
     List<String> result = [];
     String _question = Funcs()._removeCertainWords(question.toLowerCase());
-    
+
     List<String> wordsFromUser = _question.split(" ");
     for (var i = 0; i < questions!.length; i++) {
       int counter = 0;
@@ -298,5 +322,36 @@ class Funcs {
       returnString += "$item: ${values[item]}\n";
     }
     return returnString;
+  }
+
+  final appleType = "apple";
+  final androidType = "android";
+  final desktopType = "desktop";
+
+  String getSmartPhoneOrTablet() {
+    final userAgent = html.window.navigator.userAgent.toString().toLowerCase();
+    // smartphone
+    if (userAgent.contains("iphone")) return appleType;
+    if (userAgent.contains("android")) return androidType;
+
+    // tablet
+    if (userAgent.contains("ipad")) return appleType;
+    if ((html.window.navigator.platform?.toLowerCase().contains("macintel") ??
+            false) &&
+        (html.window.navigator.maxTouchPoints ?? 0) > 0) return appleType;
+
+    return desktopType;
+  }
+
+  bool isWeb(bool phoneWeb) {
+    if (kIsWeb) {
+      if (phoneWeb) {
+        return getSmartPhoneOrTablet() == "desktop" ? true : false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
   }
 }
