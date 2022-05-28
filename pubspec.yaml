@@ -91,6 +91,8 @@ flutter:
     - family: TiroBangla
       fonts:
         - asset:  assets/fonts/PlusJakartaSans-Regular.ttf
+        - asset:  assets/fonts/PlusJakartaSans-SemiBold.ttf
+          weight: 600
   # fonts:
   #   - family: Schyler
   #     fonts:

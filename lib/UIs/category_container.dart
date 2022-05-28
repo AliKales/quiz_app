@@ -52,7 +52,7 @@ class CategoryContainer extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .subtitle1!
-                .copyWith(color: colorText, fontWeight: FontWeight.bold),
+                .copyWith(color: colorText, fontWeight: FontWeight.w600),
           ),
         ),
       ),

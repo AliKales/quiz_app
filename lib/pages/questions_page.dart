@@ -188,12 +188,18 @@ class _QuestionAnswersContainerState
   int correctAnswer = -1;
 
   GameSettings? gameSettings;
+  ScrollController sc = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     gameSettings = ref.read(gameSettingProvider);
+  }
+
+  scrollViewJumpTo0() {
+    sc.animateTo(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
   @override
@@ -214,6 +220,7 @@ class _QuestionAnswersContainerState
             return true;
           },
           child: SingleChildScrollView(
+            controller: sc,
             child: Column(
               children: [
                 Text(
@@ -324,6 +331,8 @@ class _QuestionAnswersContainerState
       Navigator.pop(context);
     } else {
       ref.read(counterProvider.state).state++;
+      await Future.delayed(const Duration(milliseconds: 200));
+      scrollViewJumpTo0();
     }
   }
 
