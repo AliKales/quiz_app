@@ -45,10 +45,12 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_native_splash: ^2.1.6
   hive_generator: ^1.1.2
   build_runner: ^2.1.10
   flutter_test:
     sdk: flutter
+    
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

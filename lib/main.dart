@@ -16,7 +16,6 @@ import 'package:quiz/models/translate_answer.dart';
 import 'package:quiz/models/translate_category.dart';
 import 'package:quiz/models/translate_question.dart';
 import 'package:quiz/values.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'pages/main_page.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: context.locale,      
+      locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
       scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -68,7 +67,7 @@ class MyApp extends StatelessWidget {
         },
       ),
       debugShowCheckedModeBanner: false,
-      title: 'Quiz',
+      title: "Bi'Quiz",
       theme: ThemeData(
         fontFamily: "TiroBangla",
         primarySwatch: Colors.blue,

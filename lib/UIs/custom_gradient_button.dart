@@ -28,30 +28,37 @@ class CustomGradientButton extends StatelessWidget {
         onTap: () => onTap.call(),
         onLongPress: () => onLongPress?.call(),
         child: Container(
-          margin: disableMargin
-              ? const EdgeInsets.symmetric(vertical: 16)
-              : const EdgeInsets.all(16),
-          padding: const EdgeInsets.symmetric(
-              vertical: 14, horizontal: kIsWeb ? 14 : 0),
+          margin: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.all(2),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(radius1),
             ),
             gradient: LinearGradient(
-              colors: [color3, color2],
+              colors: [Colors.orange, Colors.pink, Colors.purple, Colors.cyan],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
           ),
-          child: Funcs().isWeb(true)
-              ? _text(context)
-              : Row(
-                  children: [
-                    Expanded(
-                      child: _text(context),
-                    ),
-                  ],
-                ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+                vertical: 12, horizontal: kIsWeb ? 20 : 0),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(radius1),
+              ),
+              color: Color(0xFF393939),
+            ),
+            child: Funcs().isWeb(true)
+                ? _text(context)
+                : Row(
+                    children: [
+                      Expanded(
+                        child: _text(context),
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
@@ -66,7 +73,7 @@ class CustomGradientButton extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .button!
-          .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+          .copyWith(color: colorWhite, fontWeight: FontWeight.w600),
     );
   }
 }

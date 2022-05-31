@@ -57,24 +57,36 @@ class MainPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SimpleUI.spacer(context: context, height: 70),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              iconSize: 36,
-              padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed: () {
-                //Funcs().navigatorPush(context, const AdminPage());
-                Funcs().navigatorPush(context,
-                    StatisticPage(statistic: HiveDatabase().getStatistic()));
-              },
-              icon: const Icon(
-                Icons.account_circle,
-                color: colorWhite,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  "BI'QUIZ",
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5!
+                      .copyWith(color: colorWhite, fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
+              IconButton(
+                iconSize: 36,
+                padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  //Funcs().navigatorPush(context, const AdminPage());
+                  Funcs().navigatorPush(context,
+                      StatisticPage(statistic: HiveDatabase().getStatistic()));
+                },
+                icon: const Icon(
+                  Icons.account_circle,
+                  color: colorWhite,
+                ),
+              ),
+            ],
           ),
           const Spacer(),
           Text(
@@ -122,10 +134,9 @@ class MainPage extends StatelessWidget {
               },
               child: Text(
                 "11".tr(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(color: Colors.grey.shade400),
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: Colors.grey.shade400,
+                    ),
               ),
             ),
           ),

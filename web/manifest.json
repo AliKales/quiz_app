@@ -1,6 +1,6 @@
 {
-    "name": "quiz",
-    "short_name": "quiz",
+    "name": "Bi'Quiz",
+    "short_name": "Bi'Quiz",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

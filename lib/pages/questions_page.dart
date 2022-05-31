@@ -79,10 +79,8 @@ class QuestionsPage extends ConsumerWidget {
         children: [
           WidgetTimer(
               width: width,
-              onDone: () async {
-                await Future.delayed(const Duration(milliseconds: 1500));
-                await Funcs().finishQuiz(context, ref);
-                Navigator.pop(context);
+              onDone: () {
+                finishTheQuiz(context, ref);
               }),
           SimpleUI.spacer(context: context, height: 70),
           Row(
@@ -110,6 +108,9 @@ class QuestionsPage extends ConsumerWidget {
             question: questions[counter],
             questionsLength: questions.length,
             counter: counter,
+            onDone: () {
+              finishTheQuiz(context, ref);
+            },
           ),
         ],
       ),
@@ -117,6 +118,12 @@ class QuestionsPage extends ConsumerWidget {
   }
 
   //FUNCTIONSSSSSSSSSSSSSSSSSSSSSS
+  Future finishTheQuiz(context, ref) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    await Funcs().finishQuiz(context, ref);
+    Navigator.pop(context);
+  }
+
   Future _onReportTap(WidgetRef ref, context, int counter) async {
     ref.read(timerProvider.notifier).pause();
     bool result = false;
@@ -166,16 +173,18 @@ class QuestionsPage extends ConsumerWidget {
 }
 
 class QuestionAnswersContainer extends ConsumerStatefulWidget {
-  const QuestionAnswersContainer({
-    Key? key,
-    required this.question,
-    required this.questionsLength,
-    required this.counter,
-  }) : super(key: key);
+  const QuestionAnswersContainer(
+      {Key? key,
+      required this.question,
+      required this.questionsLength,
+      required this.counter,
+      required this.onDone})
+      : super(key: key);
 
   final Question question;
   final int questionsLength;
   final int counter;
+  final Function() onDone;
 
   @override
   _QuestionAnswersContainerState createState() =>
@@ -208,7 +217,7 @@ class _QuestionAnswersContainerState
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
-          color: colorMix,
+          color: Color.fromARGB(255, 184, 199, 203),
           borderRadius: BorderRadius.all(
             Radius.circular(radius1),
           ),
@@ -230,10 +239,8 @@ class _QuestionAnswersContainerState
                               gameSettings!.language!.languageCode)
                           .question ??
                       "",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: color1, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 SimpleUI.spacer(context: context, height: 30),
                 ListView.builder(
@@ -305,6 +312,11 @@ class _QuestionAnswersContainerState
   }
 
   Future selectAnswer(int index) async {
+    Map timeLeft = ref.read(timerProvider);
+    if (timeLeft['value'] == 0) {
+      widget.onDone.call();
+      return;
+    }
     if (selectedAnswer != -1) return;
 
     if ((widget.counter + 1) == widget.questionsLength) {
