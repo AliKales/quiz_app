@@ -35,7 +35,7 @@ class CustomGradientButton extends StatelessWidget {
               Radius.circular(radius1),
             ),
             gradient: LinearGradient(
-              colors: [Colors.orange, Colors.pink, Colors.purple, Colors.cyan],
+              colors: [Color(0xFFFF9800), Color(0xFFE91E63), Color(0xFF9C27B0), Color(0xFF00BCD4)],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),

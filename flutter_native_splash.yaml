@@ -1,3 +1,6 @@
 flutter_native_splash:
   color: "#353d48"
-  image: assets/icon.png
+  image: assets/biquiz-splash.png
+  android: true
+  ios: false
+  web: true
