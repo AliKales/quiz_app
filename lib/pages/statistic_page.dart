@@ -39,7 +39,7 @@ class StatisticPage extends StatelessWidget {
           },
           child: Text(
             "25".tr(),
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         backgroundColor: color1,

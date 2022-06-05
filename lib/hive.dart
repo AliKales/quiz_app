@@ -36,9 +36,6 @@ class HiveDatabase {
     DateTime? dateTime = box.get("gameValues_update_date");
 
     if (direct) {
-      String str = jsonEncode(gameValues?.toJson());
-      int _bytes = str.length;
-
 
       //return gameValues;
       GameValues result =

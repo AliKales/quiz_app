@@ -10,13 +10,18 @@ import 'package:quiz/pages/statistic_page.dart';
 import 'package:quiz/simple_ui.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
   Widget build(BuildContext context) {
     bool firstStart = HiveDatabase().get("firstStart");
-    if (firstStart && kIsWeb && Funcs().getSmartPhoneOrTablet() == "android") {
+    if (firstStart && Funcs().isOnlyPhoneWeb()) {
       HiveDatabase().put("firstStart", false);
       Future.delayed(const Duration(seconds: 2)).then((value) {
         showPlaystore(context);
@@ -26,6 +31,8 @@ class MainPage extends StatelessWidget {
       backgroundColor: color1,
       body: body(context),
     );
+    // bottomNavigationBar:
+    //     SimpleUI.adWidget(future: AdmobBanner().widgetBanner()));
   }
 
   body(context) {
@@ -57,6 +64,7 @@ class MainPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SimpleUI.spacer(context: context, height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -76,10 +84,12 @@ class MainPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onPressed: () {
+                onPressed: () async {
                   //Funcs().navigatorPush(context, const AdminPage());
-                  Funcs().navigatorPush(context,
+                  //AdmobInterstitial().showInterstitialAd();
+                  await Funcs().navigatorPush(context,
                       StatisticPage(statistic: HiveDatabase().getStatistic()));
+                  //AdmobInterstitial().disposeAd();
                 },
                 icon: const Icon(
                   Icons.account_circle,
@@ -140,6 +150,20 @@ class MainPage extends StatelessWidget {
               ),
             ),
           ),
+          Funcs().isOnlyPhoneWeb()
+              ? InkWell(
+                  onTap: () => goToPlayStore(),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Image.asset(
+                          "assets/playstore.png",
+                          fit: BoxFit.fitWidth,
+                        )),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -151,8 +175,13 @@ class MainPage extends StatelessWidget {
       headText: "12".tr(),
       textBelow: "13".tr(),
       buttons: [
-        CustomGradientButton(text: "14".tr(), onTap: () {}),
+        CustomGradientButton(text: "14".tr(), onTap: () => goToPlayStore()),
       ],
     );
+  }
+
+  void goToPlayStore() {
+    Funcs().launchWebLink(
+        "https://play.google.com/store/apps/details?id=com.CAROBY.biquiz&hl=en&gl=US");
   }
 }

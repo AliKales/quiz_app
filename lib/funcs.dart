@@ -18,6 +18,7 @@ import 'package:collection/collection.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:easy_localization/easy_localization.dart';
 import 'simple_ui.dart';
+import 'dart:js' as js;
 
 class Funcs {
   String getGreeting() {
@@ -353,5 +354,13 @@ class Funcs {
     } else {
       return false;
     }
+  }
+
+  bool isOnlyPhoneWeb() {
+    return (kIsWeb && Funcs().getSmartPhoneOrTablet() == "android");
+  }
+
+  void launchWebLink(String link){
+    js.context.callMethod('open', [link]);
   }
 }

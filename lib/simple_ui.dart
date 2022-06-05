@@ -163,4 +163,17 @@ class SimpleUI {
           ),
         ]);
   }
+
+  static Widget adWidget({required Future<Object?> future}) {
+    return FutureBuilder(
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox.shrink();
+        } else {
+          return snapshot.data as Widget;
+        }
+      },
+    );
+  }
 }

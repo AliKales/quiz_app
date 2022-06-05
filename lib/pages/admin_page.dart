@@ -111,9 +111,9 @@ class _BodySignedOutState extends State<BodySignedOut> {
         SimpleUI().widgetWithProgress(
             CustomGradientButton(text: "SIGN IN", onTap: () => signIn(context)),
             progress1),
-        SimpleUI().widgetWithProgress(
-            CustomGradientButton(text: "SIGN UP", onTap: () => signUp(context)),
-            progress1),
+        // SimpleUI().widgetWithProgress(
+        //     CustomGradientButton(text: "SIGN UP", onTap: () => signUp(context)),
+        //     progress1),
       ],
     );
   }

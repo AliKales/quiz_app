@@ -25,6 +25,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //MobileAds.instance.initialize();
   await Hive.initFlutter();
   await EasyLocalization.ensureInitialized();
   Hive.registerAdapter(QuestionAdapter());
